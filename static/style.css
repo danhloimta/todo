@@ -16,18 +16,25 @@ body {
     color: #223254;
 }
 
+span {
+    line-height: 40px;
+    font-size: 18px;
+}
+
 .cbx {
     margin: auto;
     -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
-  }
-  .cbx span {
+}
+
+.cbx span {
     display: inline-block;
     vertical-align: middle;
     transform: translate3d(0, 0, 0);
-  }
-  .cbx span:first-child {
+}
+
+.cbx span:first-child {
     position: relative;
     width: 18px;
     height: 18px;
@@ -36,8 +43,9 @@ body {
     vertical-align: middle;
     border: 1px solid #9098A9;
     transition: all 0.2s ease;
-  }
-  .cbx span:first-child svg {
+}
+
+.cbx span:first-child svg {
     position: absolute;
     top: 3px;
     left: 2px;
@@ -51,8 +59,9 @@ body {
     transition: all 0.3s ease;
     transition-delay: 0.1s;
     transform: translate3d(0, 0, 0);
-  }
-  .cbx span:first-child:before {
+}
+
+.cbx span:first-child:before {
     content: "";
     width: 100%;
     height: 100%;
@@ -61,30 +70,56 @@ body {
     transform: scale(0);
     opacity: 1;
     border-radius: 50%;
-  }
-  .cbx span:last-child {
+}
+
+.cbx span:last-child {
     padding-left: 8px;
-  }
-  .cbx:hover span:first-child {
+}
+
+.cbx:hover span:first-child {
     border-color: #506EEC;
-  }
-  
-  .inp-cbx:checked + .cbx span:first-child {
+}
+
+.inp-cbx:checked + .cbx span:first-child {
     background: #506EEC;
     border-color: #506EEC;
     animation: wave 0.4s ease;
-  }
-  .inp-cbx:checked + .cbx span:first-child svg {
+}
+
+.inp-cbx:checked + .cbx span:first-child svg {
     stroke-dashoffset: 0;
-  }
-  .inp-cbx:checked + .cbx span:first-child:before {
+}
+.inp-cbx:checked + .cbx span:first-child:before {
     transform: scale(3.5);
     opacity: 0;
     transition: all 0.6s ease;
-  }
-  
-  @keyframes wave {
+}
+
+@keyframes wave {
     50% {
-      transform: scale(0.9);
+        transform: scale(0.9);
     }
-  }
+}
+
+.form-add {
+    transition: .5s;
+    animation: ease-in;
+}
+
+div#main {
+    position: relative;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background: #eeeeee4a;
+    height: 100%;
+}
+
+.loading img {
+    width: 60px;
+    margin-top: 9%;
+}
