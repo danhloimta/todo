@@ -22,20 +22,22 @@
                         >
                             <div class="form-group">
                                 <label for="add">Thêm mới</label>
-                                <div class="input-group">
-                                    <input type="text"
-                                        class="form-control" name="add" id="add" v-model="newItem.title" placeholder="Nội dung cần làm">
-                                    <div class="input-group-append">
-                                        <button class="input-group-text btn" title="Hủy" @click="showFormAdd">
-                                            <i class="fa fa-close text-danger" aria-hidden="true"></i>
-                                        </button>
+                                <form v-on:submit.prevent="saveData()" id="form">
+                                    <div class="input-group">
+                                        <input type="text"
+                                            class="form-control" name="add" id="add" v-model="newItem.title" placeholder="Nội dung cần làm">
+                                        <div class="input-group-append">
+                                            <button class="input-group-text btn" title="Hủy" @click="showFormAdd">
+                                                <i class="fa fa-close text-danger" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="input-group-text" title="Lưu" type="submit">
+                                                <i class="fa fa-check text-primary" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="input-group-append">
-                                        <button class="input-group-text" title="Lưu" @click="saveData">
-                                            <i class="fa fa-check text-primary" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -60,6 +62,8 @@ import Header from './components/header';
 import Todo from './components/todo';
 import Done from './components/done';
 import firebase from 'firebase';
+
+var toastr = require("toastr");
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -96,12 +100,7 @@ export default {
             isAdd: false,
             title: null,
             data: [],
-            newItem: {
-                id: '',
-                title: '',
-                content: '',
-                status: 0
-            },
+            newItem: {},
             isLoading: true,
         }
     },
@@ -112,8 +111,7 @@ export default {
 
     watch: {
         data () {
-            // this.todo = this.data.filter(item => (item.status == 0));
-            // this.done = this.data.filter(item => (item.status == 1));
+            this.filterData();
         }
     },
 
@@ -125,8 +123,7 @@ export default {
                     this.data.push(snap.val()[key]);
                 }
             }).then(() => {
-                this.todo = this.data.filter(item => (item.status == 0));
-                this.done = this.data.filter(item => (item.status == 1));
+                this.filterData();
             }).then(() => this.isLoading = false);
         },
 
@@ -135,16 +132,26 @@ export default {
         },
 
         saveData () {
+            if (!this.newItem.title.length) {
+                return toastr.error('Tiều đề không được để trống', 'Error!');
+            }
             this.newItem.id = uuidv1();
-            this.todo.push(this.newItem);
+            this.newItem.status = 0;
+            this.data.push(this.newItem);
             todosRef.push(this.newItem);
+            this.newItem = {};
+
+            return toastr.success('Thêm thành công', 'Thành công!');
+        },
+
+        filterData () {
+            this.todo = this.data.filter(item => (item.status == 0));
+            this.done = this.data.filter(item => (item.status == 1));
         }
     },
 }
-
-// uuidv1();
 </script>
 
 <style>
-
+    @import 'toastr';
 </style>
