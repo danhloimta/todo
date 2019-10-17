@@ -41,7 +41,11 @@
                             </div>
                         </div>
                     </div>
-                    <Todo :todo="todo" />
+                    <Todo
+                        :todo="todo"
+                        :data="data"
+                        :done="done"
+                    />
                     <Done :done="done"/>
                 </div>
                 <div
@@ -95,13 +99,13 @@ export default {
 
     data () {
         return {
+            isAdd: false,
+            isLoading: true,
             todo: [],
             done: [],
-            isAdd: false,
-            title: null,
             data: [],
             newItem: {},
-            isLoading: true,
+            dataFireBase: [],
         }
     },
 
@@ -118,7 +122,9 @@ export default {
     methods: {
         getData () {
             this.isLoading = true;
+            this.data = [];
             todosRef.once('value').then((snap) => {
+                this.dataFireBase = snap.val();
                 for (const key in snap.val()) {
                     this.data.push(snap.val()[key]);
                 }
@@ -147,6 +153,20 @@ export default {
         filterData () {
             this.todo = this.data.filter(item => (item.status == 0));
             this.done = this.data.filter(item => (item.status == 1));
+        },
+
+        updateDataToFireBase (task) {
+            let indexTask = null;
+            let updates = {};
+            for (let index in this.dataFireBase) {
+                if (this.dataFireBase[index].id == task.id) {
+                    indexTask = index;
+                }
+            };
+
+            updates['todos/' + indexTask] = task;
+
+            return firebase.database().ref().update(updates);
         }
     },
 }
