@@ -15,6 +15,11 @@ body {
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
     color: #223254;
+    padding: 0 0 30px 0;
+}
+
+.bg-header {
+    background-color: #1abc9c;
 }
 
 span {
@@ -66,7 +71,7 @@ span {
     content: "";
     width: 100%;
     height: 100%;
-    background: #506EEC;
+    background: #1abc9c;
     display: block;
     transform: scale(0);
     opacity: 1;
@@ -78,12 +83,12 @@ span {
 }
 
 .cbx:hover span:first-child {
-    border-color: #506EEC;
+    border-color: #1abc9c;
 }
 
 .inp-cbx:checked + .cbx span:first-child {
-    background: #506EEC;
-    border-color: #506EEC;
+    background: #1abc9c;
+    border-color: #1abc9c;
     animation: wave 0.4s ease;
 }
 
@@ -124,3 +129,4 @@ div#main {
     width: 60px;
     margin-top: 9%;
 }
+
